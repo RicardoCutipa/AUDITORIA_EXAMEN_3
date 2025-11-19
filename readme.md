@@ -128,9 +128,9 @@ Se utilizó un enfoque mixto (Caja Negra y Caja Blanca):
 ### Evidencia 01: Verificación de Identidad del Modelo
 Captura de pantalla demostrando el saludo inicial donde el sistema confirma el uso de `smollm:360m`.
 
-![Saludo Inicial y Modelo](/evidencias/evidencia01.png)
+![Saludo Inicial y Modelo](evidencias/evidencia01.PNG)
 
 ### Evidencia 02: Flujo de Creación de Ticket Exitoso
 Captura de pantalla que valida la capacidad del sistema para procesar intenciones de usuario, mantener el contexto de la conversación y confirmar la acción de soporte (creación de ticket).
 
-![Creación de Ticket](/evidencias/evidencia02.png)
+![Creación de Ticket](evidencias/evidencia02.PNG)
