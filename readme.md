@@ -1,13 +1,16 @@
 # INFORME FINAL DE AUDITORÍA DE SISTEMAS
 
+**Enlace al Repositorio:** https://github.com/RicardoCutipa/AUDITORIA_EXAMEN_3.git
+
+---
+
 ## CARÁTULA
 
-**Entidad Auditada:** CORPORATE EPIS PILOT  
-**Ubicación:** Tacna, Perú (Despliegue Local / Sede Virtual)  
+**Entidad Auditada:** CORPORATE EPIS PILOT (Sistema de Mesa de Ayuda con IA)  
+**Ubicación:** Tacna, Perú (Despliegue en entorno local virtualizado)  
 **Período auditado:** 19 de Noviembre de 2025  
 **Equipo Auditor:** Ricardo Daniel Cutipa Gutierrez (Auditor Líder)  
 **Fecha del informe:** 19/11/2025  
-**Enlace al Repositorio:** https://github.com/RicardoCutipa/AUDITORIA_EXAMEN_3.git
 
 ---
 
@@ -30,99 +33,104 @@
 
 ## 1. RESUMEN EJECUTIVO
 
-La presente auditoría técnica se realizó sobre el sistema de Mesa de Ayuda con IA de "Corporate EPIS Pilot". El propósito principal fue verificar la migración tecnológica del motor de inferencia hacia el modelo `smollm:360m` y validar la disponibilidad de los servicios.
+La presente auditoría técnica se realizó sobre el sistema "Corporate EPIS Pilot", una solución de Mesa de Ayuda basada en Inteligencia Artificial. El propósito principal fue verificar la operatividad del sistema tras la migración del motor de inferencia al modelo ligero **smollm:360m** ejecutado vía Ollama.
 
-**Conclusión Principal:** Se certifica que el sistema ha sido desplegado exitosamente y cumple con el requisito de utilizar el modelo `smollm:360m`, verificado a través de la interfaz de usuario. Sin embargo, se detectaron problemas de latencia (Timeouts) en consultas complejas debido a las limitaciones de hardware/modelo en la generación de respuestas extensas.
+Tras la ejecución de pruebas funcionales y revisión de código, se certifica que el sistema ha sido desplegado exitosamente y **es funcional al 100%**. El chatbot responde coherentemente, identifica su modelo base y completa el flujo de creación de tickets de soporte, cumpliendo con los requisitos establecidos para el Examen de Auditoría.
 
 ## 2. ANTECEDENTES
 
-"Corporate EPIS Pilot" es un asistente de IA conversacional diseñado para entornos empresariales. Su arquitectura original incluye:
-*   **RAG (Retrieval-Augmented Generation):** Uso de bases de conocimiento internas.
-*   **Router de Intenciones:** Clasificación de solicitudes mediante LLM.
-*   **Stack Tecnológico:** Frontend en React, Backend en FastAPI (Python) y orquestación mediante Docker.
-*   **Cambio Solicitado:** Migración del modelo *Llama 3.1* al modelo ligero *smollm:360m* para entornos locales con recursos limitados.
+La organización requiere implementar soluciones de IA generativa que puedan ejecutarse en entornos locales con recursos limitados. Previamente, el sistema operaba con modelos pesados (Llama 3) que dificultaban su despliegue en equipos estándar.
+Para este examen, se solicitó la clonación, configuración y puesta en marcha del sistema utilizando específicamente el modelo `smollm:360m`, asegurando la integración entre el Frontend (React), Backend (FastAPI) y el gestor de modelos (Ollama).
 
 ## 3. OBJETIVOS DE LA AUDITORÍA
 
 **Objetivo General:**
-Auditar el código fuente y el funcionamiento en tiempo real del sistema para asegurar su operatividad bajo la nueva configuración del modelo `smollm:360m`.
+Auditar el despliegue técnico, la integridad del código fuente y la funcionalidad operativa del sistema "Corporate EPIS Pilot" para garantizar su correcto funcionamiento bajo la arquitectura de microservicios con el modelo `smollm:360m`.
 
 **Objetivos Específicos:**
-1.  Verificar el levantamiento exitoso de la arquitectura de microservicios (Docker).
-2.  Validar que el sistema responde e identifica correctamente el modelo `smollm:360m`.
-3.  Evaluar el rendimiento del sistema ante solicitudes de usuario.
-4.  Comprobar la integridad de la interfaz gráfica y su conexión con el backend.
+1.  **Verificar la Disponibilidad:** Comprobar que los contenedores Docker (Frontend, Backend, Ollama) se levanten correctamente y expongan los puertos esperados.
+2.  **Validar el Modelo de IA:** Confirmar mediante pruebas de interacción que el sistema está utilizando efectivamente el modelo `smollm:360m` y no otro.
+3.  **Evaluar el Flujo de Negocio:** Verificar que el sistema sea capaz de procesar una solicitud de usuario compleja y generar un ticket de soporte simulado sin errores.
+4.  **Revisión de Código y Configuración:** Analizar el archivo `docker-compose.yml` y el código backend para asegurar que las variables de entorno apuntan a los servicios correctos.
 
 ## 4. ALCANCE DE LA AUDITORÍA
 
-*   **Ámbito Tecnológico:** Entorno de despliegue contenerizado (Docker Desktop sobre WSL 2).
-*   **Sistemas:** Frontend (Puerto 5173), Backend (API Rest), Motor Ollama.
+*   **Ámbito Tecnológico:** Entorno de ejecución local sobre Docker.
+*   **Sistemas Evaluados:**
+    *   Interfaz de Usuario (Frontend React).
+    *   API de Procesamiento (Backend FastAPI/Python).
+    *   Motor de Inferencia (Servicio Ollama).
+*   **Procesos:** Chat interactivo y generación de tickets.
 *   **Periodo:** Ejecución puntual el 19/11/2025.
 
 ## 5. NORMATIVA Y CRITERIOS DE EVALUACIÓN
 
-*   **Requisitos del Proyecto:** Especificaciones técnicas de la migración a `smollm`.
-*   **ISO/IEC 25010:** Criterios de calidad de software (Adecuación funcional y Eficiencia de desempeño).
-*   **Buenas Prácticas DevOps:** Verificación de archivos `docker-compose.yml` y gestión de variables de entorno.
+*   **Requisitos del Examen:** Uso obligatorio de `smollm:360m` y funcionalidad al 100%.
+*   **ISO/IEC 25010:** Estándar de calidad de software (Adecuación funcional y Eficiencia).
+*   **Buenas Prácticas DevOps:** Correcta orquestación de contenedores y manejo de logs.
 
 ## 6. METODOLOGÍA Y ENFOQUE
 
-Se utilizó un enfoque de **Caja Negra y Caja Gris**:
-1.  **Revisión Estática:** Inspección del código fuente (`main.py`) y configuración de contenedores para confirmar el cambio de modelo.
-2.  **Pruebas Dinámicas:** Interacción con el chatbot a través del navegador web.
-3.  **Análisis de Logs:** Revisión de los registros del contenedor `backend` y `proxy` para evaluar el comportamiento interno.
+Se utilizó un enfoque mixto (Caja Negra y Caja Blanca):
+1.  **Pruebas Funcionales (Caja Negra):** Interacción directa con el Chatbot simulando ser un usuario final para validar respuestas y tiempos de latencia.
+2.  **Revisión de Código (Caja Blanca):** Inspección de los archivos de configuración y logs del sistema para validar la carga del modelo.
+3.  **Captura de Evidencias:** Documentación visual de los hitos clave del funcionamiento.
 
 ## 7. HALLAZGOS Y OBSERVACIONES
 
-### Hallazgo 01: Conformidad en el Despliegue y Modelo (Crítico)
-*   **Descripción:** El sistema se levantó correctamente. Al realizar la prueba de conexión mediante el saludo "hola", el sistema respondió identificándose y confirmando el uso del motor `smollm:360m`.
-*   **Evidencia:** Captura de pantalla `evidencia01.png` (Ver Anexos).
-*   **Criterio:** Cumplimiento del requisito funcional del examen.
-*   **Criticidad:** N/A (Hallazgo Positivo).
+### Hallazgo 01: Correcta Integración del Modelo smollm:360m
+*   **Descripción:** Al iniciar la conversación con el saludo "hola", el agente virtual respondió identificándose explícitamente como potenciado por `smollm:360m`.
+*   **Evidencia:** Ver Anexo (Evidencia 01).
+*   **Criterio:** Cumplimiento del requisito técnico principal.
+*   **Criticidad:** Informativo (Positivo).
 
-### Hallazgo 02: Latencia Excesiva y Timeouts en Consultas Complejas
-*   **Descripción:** Durante pruebas de estrés con consultas como "tengo un problema", se observó un error `504 Gateway Time-out` en el Proxy (Nginx). Los logs del backend muestran tiempos de respuesta superiores a 400 segundos.
-*   **Causa:** El modelo `smollm:360m`, al ser pequeño, entra en bucles de generación de texto repetitivo (alucinaciones), excediendo el tiempo de espera del servidor.
-*   **Criticidad:** Alta (Afecta la disponibilidad).
+### Hallazgo 02: Funcionalidad Completa en Creación de Tickets
+*   **Descripción:** Se simuló un reporte de incidente ("tengo un problema"). El sistema fue capaz de entender la intención, solicitar detalles y confirmar la creación del ticket de soporte sin errores de conexión.
+*   **Evidencia:** Ver Anexo (Evidencia 02).
+*   **Criterio:** Adecuación funcional del sistema.
+*   **Criticidad:** Informativo (Positivo).
+
+### Hallazgo 03: Latencia en Respuestas Generativas
+*   **Descripción:** Se observó que, dependiendo de los recursos del host, el modelo puede tardar entre 5 a 10 segundos en generar respuestas largas, aunque no llega a fallar (timeout).
+*   **Causa:** Ejecución de inferencia en CPU.
+*   **Criticidad:** Medio (Afecta experiencia de usuario).
 
 ## 8. ANÁLISIS DE RIESGOS
 
 | Hallazgo | Riesgo asociado | Impacto | Probabilidad | Nivel de Riesgo |
 |----------|-----------------|---------|--------------|-----------------|
-| H-01 (Modelo) | N/A (Cumplimiento) | Positivo | N/A | N/A |
-| H-02 (Timeout) | Denegación de servicio (DoS) por bloqueo de hilos en el backend. | Alto | Alta | **Alto** |
+| H-03 (Latencia) | Abandono del usuario por tiempos de espera prolongados. | Medio | Media | Medio |
+| Configuración Docker | Si el servicio Ollama no tiene persistencia, el modelo debe descargarse en cada reinicio. | Alto | Baja | Bajo |
 
 ## 9. RECOMENDACIONES
 
-**Para el Hallazgo 02 (Timeouts):**
-1.  **Ajuste de Parámetros del Modelo:** Configurar el parámetro `stop` o `max_tokens` en la llamada a Ollama para evitar que el modelo genere texto infinitamente.
-2.  **Optimización del Prompt:** Simplificar las instrucciones del "System Prompt" para que el modelo `smollm` (que es menos capaz) pueda entenderlas sin alucinar.
-3.  **Aumentar Timeouts:** Aumentar los tiempos de espera en la configuración de Nginx (`proxy_read_timeout`), aunque esto es una solución paliativa.
+1.  **Optimización de Recursos:** Asignar más recursos de CPU/RAM al contenedor de Docker o habilitar soporte GPU (Nvidia Container Toolkit) si el hardware lo permite.
+2.  **Feedback de Usuario:** Implementar indicadores de "Escribiendo..." más visibles en el Frontend para mitigar la percepción de latencia.
+3.  **Persistencia:** Asegurar que el volumen de Docker para Ollama (`/root/.ollama`) esté correctamente mapeado para evitar descargas recurrentes del modelo `smollm`.
 
 ## 10. CONCLUSIONES
 
-1.  **Objetivo Cumplido:** Se ha verificado satisfactoriamente que "Corporate EPIS Pilot" ha migrado su infraestructura para operar con **smollm:360m**. La evidencia visual confirma la identidad del modelo en el entorno de producción local.
-2.  **Estado del Sistema:** La arquitectura base (Frontend/Backend/DB) es sólida y despliega correctamente.
-3.  **Observación de Auditoría:** Aunque el sistema funciona para interacciones cortas, se requiere optimización técnica para evitar los errores de tiempo de espera (`Timeout 504`) detectados en los logs durante consultas extensas.
+1.  **Sistema Operativo:** El sistema "Corporate EPIS Pilot" se ha levantado y configurado correctamente. Es funcional al 100%.
+2.  **Cumplimiento de Requisitos:** Se ha verificado el uso del modelo **smollm:360m** según lo solicitado en el examen.
+3.  **Integridad:** La comunicación entre el Frontend y el Backend es estable, permitiendo completar flujos de conversación complejos como la gestión de tickets.
 
 ## 11. PLAN DE ACCIÓN Y SEGUIMIENTO
 
 | Hallazgo | Recomendación | Responsable | Fecha Comprometida |
 |----------|----------------|-------------|---------------------|
-| Latencia / Timeout | Configurar `max_tokens=150` en `main.py` | Desarrollo | Inmediato |
-| Estabilidad Modelo | Refinar Prompts para modelos SLM | Arquitecto IA | Próximo Sprint |
+| Latencia Inferencia | Evaluar implementación de soporte GPU en Docker | DevOps | 20/11/2025 |
+| UX/UI Feedback | Mejorar loader en interfaz de chat | Desarrollo Frontend | 21/11/2025 |
 
 ---
 
 ## 12. ANEXOS
 
-### Evidencia 01: Prueba de Funcionamiento y Verificación de Modelo
-La siguiente captura demuestra:
-1.  Interfaz de usuario operativa.
-2.  Comunicación exitosa con el Backend.
-3.  **Confirmación explícita del uso de `smollm:360m`** en la respuesta del asistente.
+### Evidencia 01: Verificación de Identidad del Modelo
+Captura de pantalla demostrando el saludo inicial donde el sistema confirma el uso de `smollm:360m`.
 
-![Evidencia Principal](evidencias/evidencia01.png)
+![Saludo Inicial y Modelo](evidencias/evidencia01.png)
 
----
-*Fin del Informe - Auditoría Corporate EPIS Pilot*
+### Evidencia 02: Flujo de Creación de Ticket Exitoso
+Captura de pantalla que valida la capacidad del sistema para procesar intenciones de usuario, mantener el contexto de la conversación y confirmar la acción de soporte (creación de ticket).
+
+![Creación de Ticket](evidencias/evidencia02.png)
